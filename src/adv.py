@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -21,7 +22,6 @@ chamber! Sadly, it has already been completely emptied by
 earlier adventurers. The only exit is to the south."""),
 }
 
-
 # Link rooms together
 
 room['outside'].n_to = room['foyer']
@@ -37,15 +37,45 @@ room['treasure'].s_to = room['narrow']
 # Main
 #
 
-# Make a new player object that is currently in the 'outside' room.
+directions = ['n', 's', 'e', 'w']
 
 # Write a loop that:
 #
-# * Prints the current room name
+# Make a new player object that is currently in the 'outside' room.
+player_name = input('What is your chosen name? \n')
+player = Player(player_name, room['outside'])
+print(f"The best of luck to you, {player.name}. You're going to need it.\n")
+
+player.look()
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
-#
+while True:
+    user_input = input(f"Where would you like to go {player.name}? \n").lower().split()
+
+    if len(user_input) > 2 or len(user_input) < 1:
+        print(f"Sorry, {player.name}, You need to choose a direction. Would you like 'help'?\n")
+    
+    # If the user enters "q", quit the game.
+    else:
+        if user_input[0] == "q" or user_input[0] == "quit":
+            print(f"Aww giving up, {player.name}?") 
+            break
+
+        if user_input[0] == "h" or user_input[0] == "help":
+            print("Commands:\n'n' - Move North\n's' - Move South\n'e' - Move East\n'w' - Move West\n'l' or 'look' - Look around the current room\n'h' or 'help' - Help Menu\n'q' or 'quit' - Exit Game\n")
+            continue
+# * Prints the current room name
+        if user_input[0] == "l" or user_input[0] == "look":
+            player.look()
+            continue
+# print(f"{player.name}, you find yourself in {player.current_room.name}. \n{player.current_room.description}")
+        if user_input[0] in directions:
+            try:
+                player.change_room(user_input[0])
+                print(f"{player.name} you find yourself in {player.current_room.name}. \n{player.current_room.description}\n")
+            except AttributeError:
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+                print(f"{player.name}'s it is too dark to go that way.'\n")
+        else:
+            print('You know better...Please enter a direction (N, S, E, W) to move around the map\n')
