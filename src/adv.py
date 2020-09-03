@@ -46,7 +46,7 @@ player_name = input('What is your chosen name? \n')
 player = Player(player_name, room['outside'])
 print(f"The best of luck to you, {player.name}. You're going to need it.\n")
 
-player.look()
+
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
 while True:
@@ -76,6 +76,6 @@ while True:
             except AttributeError:
 # If the user enters a cardinal direction, attempt to move to the room there.
 # Print an error message if the movement isn't allowed.
-                print(f"{player.name}'s it is too dark to go that way.'\n")
+                print(f"{player.name} it is too dark to go that way.'\n")
         else:
-            print('You know better...Please enter a direction (N, S, E, W) to move around the map\n')
+            print('You know better...Please enter a direction (N, E, W, S) to move around the map\n')
